@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 2: Do You Feel Uncomfortable?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #ffe6e6;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+        .input-field {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+            max-width: 400px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .next {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Step 2: Do You Feel Uncomfortable? 🤔</h2>
+        <h3 id="greeting"></h3>
+        
+        <label for="uncomfortable">Do you feel uncomfortable when I talk to you?</label><br>
+        <input type="radio" id="yes" name="uncomfortable" value="Yes" onclick="showReasonBox()"> Yes
+        <input type="radio" id="no" name="uncomfortable" value="No" onclick="hideReasonBox()"> No<br><br>
+
+        <div id="reasonBox" style="display:none;">
+            <label for="reason">If yes, please provide the reason </label><br>
+            <textarea id="reason" class="input-field" rows="4" cols="30"></textarea><br><br>
+        </div>
+        
+        <button class="btn next" onclick="submitForm()">Next</button>
+    </div>
+
+    <script>
+        // Display the user's name from previous steps
+        document.getElementById('greeting').innerText = "Hello, " + localStorage.getItem('name') + "!";
+
+        function showReasonBox() {
+            document.getElementById('reasonBox').style.display = 'block';
+        }
+        
+        function hideReasonBox() {
+            document.getElementById('reasonBox').style.display = 'none';
+        }
+
+        function submitForm() {
+            let reason = document.getElementById('reason').value.trim();
+            let uncomfortable = document.querySelector('input[name="uncomfortable"]:checked');
+
+            // Validate that at least 5 words are provided if 'Yes' is selected
+            if (uncomfortable && uncomfortable.value === 'Yes' && reason.split(' ').length < 2) {
+                alert('Please provide at least 5 words explaining why you feel uncomfortable.');
+                return;
+            }
+
+            // Store the response in localStorage for future steps
+            localStorage.setItem('uncomfortable', uncomfortable ? uncomfortable.value : 'No');
+            localStorage.setItem('reason', reason);
+
+            // Redirect to the next step
+            window.location.href = 'third.html';  // Replace with the next page URL
+        }
+    </script>
+</body>
+</html>
